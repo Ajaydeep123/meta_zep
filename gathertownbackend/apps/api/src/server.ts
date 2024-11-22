@@ -2,7 +2,7 @@ import { json, urlencoded } from "body-parser";
 import express, { type Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import router from "./routes/user.routes";
+import router from "./routes/index";
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -10,6 +10,8 @@ dotenv.config()
 
 export const createServer = (): Express => {
   const app = express();
+
+  app.use(express.json())
   app
     .disable("x-powered-by")
     .use(morgan("dev"))

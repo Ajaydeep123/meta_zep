@@ -5,7 +5,7 @@ interface TokenData {
     id: string
 }
 
-export const createToken =(data: TokenData) => {
+export const createToken = (data: TokenData) => {
 
     const secret = process.env.JWT_SECRET
     console.log(secret)
@@ -29,7 +29,5 @@ export const verifyToken = (token: string) : JwtPayload | null => {
     } catch (error) {
         console.error("error in verifyToken", error);
         return null;
-    }
-
-    
+    }    
 }

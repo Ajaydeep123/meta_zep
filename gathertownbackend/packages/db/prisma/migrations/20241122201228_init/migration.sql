@@ -17,8 +17,9 @@ CREATE TABLE "Space" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "width" INTEGER NOT NULL,
-    "height" INTEGER,
+    "height" INTEGER NOT NULL,
     "thumbnail" TEXT,
+    "creatorId" TEXT NOT NULL,
 
     CONSTRAINT "Space_pkey" PRIMARY KEY ("id")
 );
@@ -40,6 +41,7 @@ CREATE TABLE "Element" (
     "width" INTEGER NOT NULL,
     "height" INTEGER NOT NULL,
     "imageUrl" TEXT NOT NULL,
+    "static" BOOLEAN NOT NULL,
 
     CONSTRAINT "Element_pkey" PRIMARY KEY ("id")
 );
@@ -50,19 +52,20 @@ CREATE TABLE "Map" (
     "width" INTEGER NOT NULL,
     "height" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
+    "thumbnail" TEXT NOT NULL,
 
     CONSTRAINT "Map_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "mapElements" (
+CREATE TABLE "MapElements" (
     "id" TEXT NOT NULL,
     "mapId" TEXT NOT NULL,
-    "elementId" TEXT,
+    "elementId" TEXT NOT NULL,
     "x" INTEGER,
     "y" INTEGER,
 
-    CONSTRAINT "mapElements_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "MapElements_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -96,7 +99,25 @@ CREATE UNIQUE INDEX "Element_id_key" ON "Element"("id");
 CREATE UNIQUE INDEX "Map_id_key" ON "Map"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "mapElements_id_key" ON "mapElements"("id");
+CREATE UNIQUE INDEX "MapElements_id_key" ON "MapElements"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Avatar_id_key" ON "Avatar"("id");
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_avatarId_fkey" FOREIGN KEY ("avatarId") REFERENCES "Avatar"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Space" ADD CONSTRAINT "Space_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "spaceElements" ADD CONSTRAINT "spaceElements_elementId_fkey" FOREIGN KEY ("elementId") REFERENCES "Element"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "spaceElements" ADD CONSTRAINT "spaceElements_spaceId_fkey" FOREIGN KEY ("spaceId") REFERENCES "Space"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MapElements" ADD CONSTRAINT "MapElements_mapId_fkey" FOREIGN KEY ("mapId") REFERENCES "Map"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MapElements" ADD CONSTRAINT "MapElements_elementId_fkey" FOREIGN KEY ("elementId") REFERENCES "Element"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

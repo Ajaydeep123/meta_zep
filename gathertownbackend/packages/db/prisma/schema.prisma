@@ -18,15 +18,20 @@ model User {
   username String  @unique
   password String  @unique
   avatarId String?
+  avatar   Avatar? @relation(fields: [avatarId], references: [id])
   role     Role
+  spaces   Space[]
 }
 
 model Space {
   id        String  @id @unique @default(cuid())
   name      String
   width     Int
-  height    Int?
+  height    Int
   thumbnail String?
+  creatorId String
+  creator   User    @relation(fields: [creatorId], references: [id])
+  elements  spaceElements[]
 }
 
 model spaceElements {
@@ -35,6 +40,8 @@ model spaceElements {
   spaceId   String
   x         Int
   y         Int
+  element   Element @relation(fields: [elementId], references: [id])
+  space     Space   @relation(fields: [spaceId], references: [id])
 }
 
 model Element {
@@ -42,6 +49,9 @@ model Element {
   width    Int
   height   Int
   imageUrl String
+  static   Boolean
+  spaces   spaceElements[]
+  mapElements MapElements[]
 }
 
 model Map {
@@ -49,20 +59,25 @@ model Map {
   width  Int
   height Int
   name   String
+  thumbnail String
+  mapElements MapElements[]
 }
 
-model mapElements {
+model MapElements {
   id        String  @id @unique @default(cuid())
   mapId     String
-  elementId String?
+  elementId String
   x         Int?
   y         Int?
+  map       Map     @relation(fields: [mapId], references: [id])
+  element   Element @relation(fields: [elementId], references: [id]) 
 }
 
 model Avatar {
   id       String  @id @unique @default(cuid())
   imageUrl String?
   name     String?
+  user     User[]
 }
 
 enum Role {
