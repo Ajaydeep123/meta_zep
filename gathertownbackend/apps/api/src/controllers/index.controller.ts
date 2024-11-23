@@ -92,3 +92,45 @@ export const signin = asyncHandler(async( req:Request, res:Response)=> {
     }
 })
 
+export const getAvatars = asyncHandler(async(req:Request, res:Response)=>{
+    const avatars = await prisma.avatar.findMany()
+
+    if(avatars.length === 0){
+        return res.status(200).json({
+            success:true,
+            message:"No avatars available"
+        })
+    }
+
+    res.status(200).json({
+        success:true,
+        avatars: avatars.map(avatar =>({
+            id: avatar?.id,
+            imageUrl: avatar?.imageUrl,
+            name:avatar?.name
+        }))
+    })
+})
+
+export const getElements = asyncHandler(async(req:Request,res:Response)=>{
+    const elements = await prisma.element.findMany()
+
+    if(elements.length === 0){
+         return res.status(200).json({
+            success:true,
+            message:"No Elements found!"
+        })}
+
+    res.status(200).json({
+        success:true,
+        elements: elements.map(element =>({
+            id: element?.id,
+            imageUrl: element?.imageUrl,
+            width: element?.width,
+            height: element?.height,
+            static: element?.static
+        }))
+    })
+
+})
+
