@@ -2,8 +2,11 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 interface TokenData {
-    id: string
+    role?: "Admin" | "User";
+     userId?: string;
 }
+
+type ExtendedJwtPayload = JwtPayload & TokenData;
 
 export const createToken = (data: TokenData) => {
 
@@ -17,14 +20,14 @@ export const createToken = (data: TokenData) => {
     return token;
 };
 
-export const verifyToken = (token: string) : JwtPayload | null => {
+export const verifyToken = (token: string) : ExtendedJwtPayload | null => {
     try {
         const secret = process.env.JWT_SECRET;
         if (!secret) {
             throw new Error("JWT Secret missing!");
         }
 
-        const data = jwt.verify(token, secret) as JwtPayload;
+        const data = jwt.verify(token, secret) as ExtendedJwtPayload;
         return data;
     } catch (error) {
         console.error("error in verifyToken", error);
