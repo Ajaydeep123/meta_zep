@@ -215,9 +215,12 @@ describe("User avatar information", () => {
     })
 
     test("Get back avatar information for a user", async () => {
+        console.log('------------------------------------------------------------------------------------------')
         console.log("asking for user with id " + userId)
         const response = await axios.get(`${BACKEND_URL}/api/v1/user/metadata/bulk?ids=[${userId}]`);
         console.log("response was " + userId)
+        console.log('------------------------------------------------------------------------------------------')
+
         console.log(JSON.stringify(response.data))
         expect(response.data.avatars.length).toBe(1);
         expect(response.data.avatars[0].userId).toBe(userId);
@@ -580,14 +583,15 @@ describe("Arena endpoints", () => {
             }
         });
 
-        console.log(response.data.elements[0].id )
+        // console.log(response.data.elements[0].id )
         let res = await axios.delete(`${BACKEND_URL}/api/v1/space/element`, {
             data: {id: response.data.elements[0].id},
             headers: {
                 "authorization": `Bearer ${userToken}`
             }
         });
-
+        console.log('-------------------------------------------------------------------------------')
+        console.log(res.data.message)
 
         const newResponse = await axios.get(`${BACKEND_URL}/api/v1/space/${spaceId}`, {
             headers: {
@@ -614,7 +618,7 @@ describe("Arena endpoints", () => {
     })
 
     test("Adding an element works as expected", async () => {
-        await axios.post(`${BACKEND_URL}/api/v1/space/element`, {
+        let res =await axios.post(`${BACKEND_URL}/api/v1/space/element`, {
             "elementId": element1Id,
             "spaceId": spaceId,
             "x": 50,
@@ -624,7 +628,8 @@ describe("Arena endpoints", () => {
                 "authorization": `Bearer ${userToken}`
             }
         });
-
+        console.log(res.data);
+        
         const newResponse = await axios.get(`${BACKEND_URL}/api/v1/space/${spaceId}`, {
             headers: {
                 "authorization": `Bearer ${userToken}`

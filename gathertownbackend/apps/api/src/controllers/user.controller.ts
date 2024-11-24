@@ -8,7 +8,7 @@ export const bulkmetadata = asyncHandler(async (req:Request, res:Response)=>{
     const userIdQueryString = (req.query.ids ?? "[]") as string;
     let userIds: string[] = [];
     try {
-        userIds = JSON.parse(userIdQueryString);
+    userIds = (userIdQueryString).slice(1, userIdQueryString?.length - 1).split(",");
     } catch (error) {
         return res.status(400).json({
             success: false,
@@ -35,15 +35,8 @@ export const bulkmetadata = asyncHandler(async (req:Request, res:Response)=>{
                 id:true
             }
         })
-    
-        if (metadata.length === 0) {
-                return res.status(404).json({
-                    success: false,
-                    message: "No metadata found for the provided user IDs."
-            });
-        }
-    
-        res.status(200).json({
+
+        return res.status(200).json({
             success:true,
             avatars:metadata.map(m=>({
                 userId:m.id,
@@ -84,7 +77,7 @@ export const updatemetadata = asyncHandler(async (req:Request, res:Response)=>{
         
     } catch (error) {
         console.error(error)
-        return res.status(500).json({
+        return res.status(400).json({
             success: false,
             message: "An error occurred while processing the request.",
         });           

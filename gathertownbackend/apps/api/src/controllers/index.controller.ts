@@ -16,6 +16,18 @@ export const signup = asyncHandler(async (req: Request, res: Response) => {
             message: "Validation failed!",
         });
     }
+    const existingUser = await prisma.user.findUnique({
+        where: {
+            username: signupData.data.username,
+        },
+    });
+
+    if (existingUser) {
+        return res.status(400).json({
+            success: false,
+            message: "Username already exists",
+        });
+    }
 
     const hashedPassword = await hashData(signupData.data?.password);
 
@@ -28,13 +40,13 @@ export const signup = asyncHandler(async (req: Request, res: Response) => {
             },
         });
 
-        return res.status(201).json({
+        return res.status(200).json({
             success: true,
             message: "User created successfully",
             userId: user.id,
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(400).json({
             success: false,
             message: "Failed to create the user!",
         });
@@ -80,7 +92,7 @@ export const signin = asyncHandler(async( req:Request, res:Response)=> {
         
         res.status(200).json({
             success:true,
-            data:token,
+            token,
             message:"User signed in"
         })
 
