@@ -100,6 +100,40 @@ importers:
         specifier: 5.5.4
         version: 5.5.4
 
+  apps/websocket:
+    dependencies:
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
+      esbuild:
+        specifier: ^0.24.0
+        version: 0.24.0
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.2
+      tsup:
+        specifier: ^8.0.2
+        version: 8.3.5(postcss@8.4.31)(tsx@4.19.2)(typescript@5.5.4)
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0
+    devDependencies:
+      '@repo/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
+      '@types/jsonwebtoken':
+        specifier: ^9.0.7
+        version: 9.0.7
+      '@types/ws':
+        specifier: ^8.5.13
+        version: 8.5.13
+
   packages/db:
     dependencies:
       '@prisma/client':
@@ -1173,6 +1207,9 @@ packages:
 
   '@types/tinycolor2@1.4.6':
     resolution: {integrity: sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==}
+
+  '@types/ws@8.5.13':
+    resolution: {integrity: sha512-osM/gWBTPKgHV8XkTunnegTRIsvF6owmf5w+JtAfOw472dptdm0dlGv4xCt6GwQRcC2XVOvvRE/0bAoQcL2QkA==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -4311,6 +4348,18 @@ packages:
     resolution: {integrity: sha512-7KxauUdBmSdWnmpaGFg+ppNjKF8uNLry8LyzjauQDOVONfFLNKrKvQOxZ/VuTIcS/gge/YNahf5RIIQWTSarlg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
 
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
@@ -5362,6 +5411,10 @@ snapshots:
       '@types/node': 20.17.6
 
   '@types/tinycolor2@1.4.6': {}
+
+  '@types/ws@8.5.13':
+    dependencies:
+      '@types/node': 20.17.6
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -9259,6 +9312,8 @@ snapshots:
     dependencies:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
+
+  ws@8.18.0: {}
 
   y18n@5.0.8: {}
 

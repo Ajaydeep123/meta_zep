@@ -1,5 +1,5 @@
 const axios2 = require("axios");
-
+const WebSocket = require('ws');
 const BACKEND_URL = "http://localhost:5001"
 const WS_URL = "ws://localhost:3001"
 
@@ -945,7 +945,6 @@ describe("Websocket tests", () => {
     })
 
     test("Get back ack for joining the space", async () => {
-        console.log("insixce first test")
         ws1.send(JSON.stringify({
             "type": "join",
             "payload": {
@@ -953,7 +952,6 @@ describe("Websocket tests", () => {
                 "token": adminToken
             }
         }))
-        console.log("inside the  first test1")
         const message1 = await waitForAndPopLatestMessage(ws1Messages);
         console.log("inside test2")
         ws2.send(JSON.stringify({
